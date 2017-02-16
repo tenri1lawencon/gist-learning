@@ -1,7 +1,7 @@
 Step by step instalasi software di Kubuntu 16.04
 
-1. Install apache (PHP v5.6)
-   # sudo apt-get install php libapache2-mod-php php-cgi apache2
+1. Install apache (PHP v7)
+   # sudo apt-get install php libapache2-mod-php php-cgi apache2 php-pgsql php-dev php-intl
    # sudo nano /etc/apache2/mods-enabled/dir.conf
    # index.php [pindahkan ke yang paling depan]
    # systemctl start apache2
@@ -43,6 +43,14 @@ Step by step instalasi software di Kubuntu 16.04
    # /opt/lampp/lampp status 
    # /opt/lampp/lampp stop 
    # /opt/lampp/lampp restart
+
+   -----------
+   mengganti php-version ke php di lampp
+   # cd /etc/
+   # nano bash.bashrc
+   # paste dibagian akhir : PATH=/opt/lampp/bin:$PATH
+   # source bash.bashrc
+   # php -v
 
 3. Install Node.js
    # sudo apt-get install build-essential
@@ -88,6 +96,9 @@ Step by step instalasi software di Kubuntu 16.04
     # ALTER USER "nama_user" WITH PASSWORD 'new_password';
   - Lihat semua user postgres:
     # postgres=# \du   
+    
+    NOTE : 
+    Install pgsql for php : apt-get install php-pgsql
 
 7. Install atom editor
    # sudo add-apt-repository ppa:webupd8team/atom
@@ -123,11 +134,12 @@ Step by step instalasi software di Kubuntu 16.04
     # link download : goo.gl/6B2gL7
     # unzip php-java-bridge_6.2.1_documentation.zip
     # cp JavaBridge.war /var/lib/tomcat7/webapps/ (maka secara otomatis akan membuat folder JavaBridge di dalam webapps)
-    # link download additional_lib : https://goo.gl/YOgMIO
+    # download additional_lib : http://www.mediafire.com/file/erl7f4226ofu52r/additional_lib.zip
     # unzip additional_lib.zip
     # cd /lib/
-    # cp * /var/lib/tomcat7/webapps/JavaBridge/WEB-INF/lib/
+    # cp -rf * /var/lib/tomcat7/webapps/JavaBridge/WEB-INF/lib/
     # cd /var/lib/tomcat7/webapps/JavaBridge/WEB-INF/lib/
+    # chmod -R 777 *
     # chown -R root:root *
     # systemctl restart tomcat7
     # akses : http://localhost:8081/JavaBridge/ (mucul halaman PHP/Java Bridge examples)
@@ -146,6 +158,7 @@ Step by step instalasi software di Kubuntu 16.04
       # tar zxvf msttcorefonts.tar.gz
       # cp msttcorefonts/*.ttf  /usr/share/fonts/
       # fc-cache -fv 
+      # systemctl restart tomcat7
       
     Error :
     # ERROR generating Report:
@@ -168,3 +181,14 @@ Step by step instalasi software di Kubuntu 16.04
     # sudo add-apt-repository ppa:webupd8team/sublime-text-3
     # sudo apt-get update
     # sudo apt-get install sublime-text-installer
+
+
+ 14. Error php_pdo_pgsql.dll & php_pgsql.dll di Lampp
+    # Warning: PHP Startup: Unable to load dynamic library '/opt/lampp/lib/php/extensions/no-debug-non-zts-20090626/php_pdo_pgsql.dll'
+    # Warning: PHP Startup: Unable to load dynamic library '/opt/lampp/lib/php/extensions/no-debug-non-zts-20090626/php_pgsql.dll'
+      Edit file :
+    # nano /opt/lampp/etc/php.ini
+    # diberi comment
+      ;extension=php_pdo_pgsql.dll
+      ;extension=php_pgsql.dll
+    
